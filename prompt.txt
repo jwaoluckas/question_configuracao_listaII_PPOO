@@ -1,0 +1,2 @@
+Prompt 1
+Preciso resolver um exercício em Java usando Singleton para ler um arquivo de configuração de jogo. Qual a melhor estrutura de classes?
