@@ -5,3 +5,6 @@ Prompt 2
 Me mostra o passo a passo para criar a classe que modela os campos do arquivo com getters individuais para outros módulos.
 
 Ajuste meu: a IA sugeriu colocar setters também, mas eu tirei. A configuração é lida do arquivo e não muda depois, então deixei só os campos final e os getters. Assim nenhum outro componente consegue alterar os dados por engano.
+
+Prompt 3
+Agora implementa o Singleton para ler o arquivo só na primeira chamada e manter os dados em memória. Faz o básico primeiro.
