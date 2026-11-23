@@ -8,3 +8,8 @@ Ajuste meu: a IA sugeriu colocar setters também, mas eu tirei. A configuração
 
 Prompt 3
 Agora implementa o Singleton para ler o arquivo só na primeira chamada e manter os dados em memória. Faz o básico primeiro.
+
+Prompt 4
+Notei que alguns campos vêm vazios, como WorkingDirectory, e o parser simples falha. Como tratar valores vazios e linhas inválidas?
+
+Ajuste meu: troquei o split("=") por split("=", 2). Com o split normal o WorkingDirectory= dava erro de índice porque o valor vazio some do array, e o WindowInfo e o LVWindowInfo perdiam o = do final (Base64). Com o limite 2 ele corta só no primeiro =. Também coloquei trim nas chaves e valores e pulo as linhas sem =.

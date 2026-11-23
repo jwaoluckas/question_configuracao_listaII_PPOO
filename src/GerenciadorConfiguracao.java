@@ -34,17 +34,31 @@ public class GerenciadorConfiguracao {
     }
 
     private static ConfiguracaoJogo lerArquivo() {
+        if (!Files.isReadable(ARQUIVO)) {
+            throw new IllegalStateException("Arquivo de configuracao nao encontrado: " + ARQUIVO);
+        }
         try {
             List<String> linhas = Files.readAllLines(ARQUIVO);
             quantidadeLeituras++;
-            Map<String, String> valores = new HashMap<>();
-            for (String linha : linhas) {
-                String[] partes = linha.split("=");
-                valores.put(partes[0], partes[1]);
-            }
-            return new ConfiguracaoJogo(valores);
+            return new ConfiguracaoJogo(interpretar(linhas));
         } catch (IOException e) {
             throw new IllegalStateException("Nao foi possivel ler " + ARQUIVO, e);
         }
+    }
+
+    private static Map<String, String> interpretar(List<String> linhas) {
+        Map<String, String> valores = new HashMap<>();
+        for (String linha : linhas) {
+            String[] partes = linha.trim().split("=", 2);
+            if (partes.length < 2) {
+                continue;
+            }
+            String chave = partes[0].trim();
+            if (chave.isEmpty()) {
+                continue;
+            }
+            valores.put(chave, partes[1].trim());
+        }
+        return valores;
     }
 }
