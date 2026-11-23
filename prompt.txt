@@ -13,3 +13,8 @@ Prompt 4
 Notei que alguns campos vêm vazios, como WorkingDirectory, e o parser simples falha. Como tratar valores vazios e linhas inválidas?
 
 Ajuste meu: troquei o split("=") por split("=", 2). Com o split normal o WorkingDirectory= dava erro de índice porque o valor vazio some do array, e o WindowInfo e o LVWindowInfo perdiam o = do final (Base64). Com o limite 2 ele corta só no primeiro =. Também coloquei trim nas chaves e valores e pulo as linhas sem =.
+
+Prompt 5
+E se dois componentes chamarem getInstance() ao mesmo tempo? Como deixar o Singleton thread-safe sem reler o arquivo?
+
+Ajuste meu: a IA sugeriu colocar synchronized no método getInstance inteiro. Eu usei o double-checked locking com volatile, daí só entra no synchronized enquanto a instância ainda não existe. Isso evita que duas threads leiam o arquivo ao mesmo tempo e depois da primeira vez as chamadas não ficam presas esperando uma na outra. O contador de leituras virou AtomicInteger.

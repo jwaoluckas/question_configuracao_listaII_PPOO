@@ -4,13 +4,15 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GerenciadorConfiguracao {
 
     private static final Path ARQUIVO = Path.of("config.txt");
 
-    private static GerenciadorConfiguracao instancia;
-    private static int quantidadeLeituras = 0;
+    private static final AtomicInteger quantidadeLeituras = new AtomicInteger();
+
+    private static volatile GerenciadorConfiguracao instancia;
 
     private final ConfiguracaoJogo configuracao;
 
@@ -20,13 +22,17 @@ public class GerenciadorConfiguracao {
 
     public static GerenciadorConfiguracao getInstance() {
         if (instancia == null) {
-            instancia = new GerenciadorConfiguracao();
+            synchronized (GerenciadorConfiguracao.class) {
+                if (instancia == null) {
+                    instancia = new GerenciadorConfiguracao();
+                }
+            }
         }
         return instancia;
     }
 
     public static int getQuantidadeLeituras() {
-        return quantidadeLeituras;
+        return quantidadeLeituras.get();
     }
 
     public ConfiguracaoJogo getConfiguracao() {
@@ -39,7 +45,7 @@ public class GerenciadorConfiguracao {
         }
         try {
             List<String> linhas = Files.readAllLines(ARQUIVO);
-            quantidadeLeituras++;
+            quantidadeLeituras.incrementAndGet();
             return new ConfiguracaoJogo(interpretar(linhas));
         } catch (IOException e) {
             throw new IllegalStateException("Nao foi possivel ler " + ARQUIVO, e);
