@@ -18,3 +18,6 @@ Prompt 5
 E se dois componentes chamarem getInstance() ao mesmo tempo? Como deixar o Singleton thread-safe sem reler o arquivo?
 
 Ajuste meu: a IA sugeriu colocar synchronized no método getInstance inteiro. Eu usei o double-checked locking com volatile, daí só entra no synchronized enquanto a instância ainda não existe. Isso evita que duas threads leiam o arquivo ao mesmo tempo e depois da primeira vez as chamadas não ficam presas esperando uma na outra. O contador de leituras virou AtomicInteger.
+
+Prompt 6
+Cria uma classe Main testando o acesso individual aos campos, imprimindo tudo e provando que o arquivo foi lido uma única vez.
